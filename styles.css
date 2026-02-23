@@ -1,0 +1,1948 @@
+/* ============================================================
+   SEAN RAINEY PORTFOLIO — styles.css
+   Stack: Semantic HTML5, single CSS file, no frameworks
+   ============================================================ */
+
+/* ── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: #0f0b0b;
+  background-image:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(60,40,40,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 40% at 80% 100%, rgba(30,20,20,0.4) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: elza, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: var(--header-h); /* offset for fixed header */
+}
+
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+/* ── DESIGN TOKENS ────────────────────────────────────────── */
+/*
+ * Base: 1rem = 16px (browser default)
+ * Grid: 12 columns, 40px margin, 20px gutter (Figma spec)
+ * Timothy Ricks approach: size in rem, space fluidly with clamp()
+ */
+:root {
+  --bg:          #0f0b0b;
+  --white:       #ffffff;
+  --muted:       #b2b2b2;
+  --dim:         #4c4c4c;
+  --border:      #252525;
+  --border-light:#333333;
+
+  --font-light:  300;
+  --font-regular:400;
+  --font-medium: 500;
+
+  /* rem-based radii */
+  --radius-sm:   0.25rem;  /* 4px */
+  --radius-card: 0.25rem;  /* 4px */
+
+  /* rem-based spacing scale */
+  --space-1:  0.5rem;   /*  8px */
+  --space-2:  1rem;     /* 16px */
+  --space-3:  1.5rem;   /* 24px */
+  --space-4:  2.5rem;   /* 40px */
+  --space-5:  3.75rem;  /* 60px */
+  --space-6:  6.25rem;  /* 100px */
+  --space-7:  11.25rem; /* 180px */
+
+  /* Legacy aliases — keep for backward compat */
+  --spacing-xs:  var(--space-1);
+  --spacing-sm:  var(--space-2);
+  --spacing-md:  var(--space-3);
+  --spacing-lg:  var(--space-4);
+  --spacing-xl:  var(--space-5);
+  --spacing-2xl: var(--space-6);
+  --spacing-3xl: var(--space-7);
+
+  /* Layout */
+  --container:      75rem;   /* 1200px */
+  --sidebar-w:      13.75rem; /* 220px */
+  --header-h:       6.25rem;  /* 100px — logo 60px + 20px padding top/bottom */
+  --page-pad:       clamp(1.25rem, 2.5vw, 2.5rem); /* 20–40px — Figma uses 40px fixed */
+
+  /* Work grid: max image heights from Figma (rem) */
+  --card-h-tall:    30rem;   /* 480px — small card */
+  --card-h-xl:      52.5rem; /* 840px — large card */
+}
+
+/* ── TYPOGRAPHY ───────────────────────────────────────────── */
+.display-heading {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.display-heading--muted {
+  color: var(--muted);
+}
+
+/* ── LAYOUT CONTAINERS ────────────────────────────────────── */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
+}
+
+.container-wide {
+  width: 100%;
+  padding: 0 var(--page-pad);
+}
+
+/* ── HEADER / NAV ─────────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000; /* above curtain (9999) */
+  padding: 20px var(--page-pad);
+}
+
+.header-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Figma: 20px gap between logo mark and name */
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 3.75rem;   /* 60px — matches Figma exactly */
+  height: 3.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Dark background panel — default: sits over the box */
+.logo-mark__dark {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  transform: translateY(0);
+  z-index: 1;
+  will-change: transform;
+}
+
+/* White background panel — default: hidden below the box */
+.logo-mark__light {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  transform: translateY(100%);
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Logo icon layers — centred, pointer-events off */
+.logo-mark__icon {
+  position: absolute;
+  width: 55%;
+  height: 55%;
+  object-fit: contain;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* White icon — always on top of dark bg */
+.logo-mark__icon--light {
+  filter: invert(1);
+  z-index: 3;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Dark icon — shown once white bg covers */
+.logo-mark__icon--dark {
+  filter: none;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* ── Logo wipe keyframes ───────────────────────────────────── */
+@keyframes logo-wipe-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0%); }
+}
+@keyframes logo-wipe-out {
+  from { transform: translateY(0%); }
+  to   { transform: translateY(-100%); }
+}
+@keyframes logo-dark-exit {
+  from { transform: translateY(0%); }
+  to   { transform: translateY(-100%); }
+}
+@keyframes logo-dark-return {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0%); }
+}
+
+/* ── State: wiping IN — white rises, dark exits top ── */
+.logo-mark.is-wiping-in .logo-mark__light {
+  animation: logo-wipe-in 0.55s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.logo-mark.is-wiping-in .logo-mark__dark {
+  animation: logo-dark-exit 0.55s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.logo-mark.is-wiping-in .logo-mark__icon--dark  { opacity: 1; }
+.logo-mark.is-wiping-in .logo-mark__icon--light { opacity: 0; }
+
+/* ── State: white (resting, fully covered) ── */
+.logo-mark.is-white .logo-mark__light { transform: translateY(0%); }
+.logo-mark.is-white .logo-mark__dark  { transform: translateY(-100%); }
+.logo-mark.is-white .logo-mark__icon--dark  { opacity: 1; }
+.logo-mark.is-white .logo-mark__icon--light { opacity: 0; }
+
+/* ── State: wiping OUT — white continues up and exits ── */
+.logo-mark.is-wiping-out .logo-mark__light {
+  animation: logo-wipe-out 0.55s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.logo-mark.is-wiping-out .logo-mark__dark {
+  animation: logo-dark-return 0.55s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.logo-mark.is-wiping-out .logo-mark__icon--dark  { opacity: 0; }
+.logo-mark.is-wiping-out .logo-mark__icon--light { opacity: 1; transition: opacity 0.2s 0.25s ease; }
+
+/* ── State: reset snap (applied for one frame then removed) ── */
+.logo-mark.logo-mark--reset .logo-mark__light { animation: none !important; transform: translateY(100%); }
+.logo-mark.logo-mark--reset .logo-mark__dark  { animation: none !important; transform: translateY(0%); }
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logo-name {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 1;
+}
+
+.logo-name.muted {
+  color: var(--muted);
+}
+
+.logo-location {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--muted);
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+  /* height = exactly one line */
+  height: 1.2em;
+}
+
+/* Inner slot — stacks two copies vertically */
+.nav-link__inner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.nav-link__label {
+  display: block;
+  line-height: 1.2;
+  color: var(--muted);
+}
+
+/* Second label — white, sits below, rises up on hover */
+.nav-link__label + .nav-link__label {
+  color: var(--white);
+}
+
+/* Hover only: slide up */
+.nav-link:hover .nav-link__inner {
+  transform: translateY(-50%);
+}
+
+/* Active: first label is white, no slide */
+.nav-link.active .nav-link__label:first-child {
+  color: var(--white);
+}
+
+/* ── CONTACT PILL ─────────────────────────────────────────── */
+/*
+ * Structure:
+ *   div.contact-pill               — wrapper
+ *     a.contact-pill__email        — mailto link, always visible
+ *     span.contact-pill__divider   — 1px vertical rule, fades in on hover
+ *     button.contact-pill__copy    — slides in on hover
+ *       span.contact-pill__copy-icon   — copy SVG (hidden when copied)
+ *       span.contact-pill__copied-text — "Copied" text pill (shown when copied)
+ *
+ * States (via JS-toggled classes on wrapper):
+ *   default  — email only
+ *   :hover   — divider + copy button revealed (via :has())
+ *   is-copied — copy button shows "Copied" pill
+ */
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+}
+
+/* Border brightens on any hover */
+.contact-pill:hover,
+.contact-pill.is-copied {
+  border-color: rgba(255,255,255,0.25);
+}
+
+/* ── Email link ── */
+.contact-pill__email {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 16px 0 20px;
+  font-size: 15px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+/* Hovering the email text — full opacity, stays white */
+.contact-pill__email:hover {
+  opacity: 1;
+}
+
+/* When hovering the icon button, fade the email text */
+.contact-pill:has(.contact-pill__copy:hover) .contact-pill__email {
+  opacity: 0.4;
+}
+
+/* ── Divider ── */
+.contact-pill__divider {
+  display: block;
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.12);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.contact-pill:hover .contact-pill__divider,
+.contact-pill.is-copied .contact-pill__divider {
+  opacity: 1;
+}
+
+/* ── Copy button ── */
+.contact-pill__copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Collapsed by default — fixed px so width can animate */
+  width: 0;
+  overflow: hidden;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  transition:
+    width   0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reveal on pill hover — icon is 30px + 8px side padding each side = 46px */
+.contact-pill:hover .contact-pill__copy {
+  width: 46px;
+  padding: 0 8px;
+}
+
+/* Copied — widen to fit "Copied" text (~76px) + 8px padding each side */
+.contact-pill.is-copied .contact-pill__copy {
+  width: 84px;
+  padding: 0 8px;
+}
+
+/* Inner icon wrap — always a circle */
+.contact-pill__copy-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+  /* Start invisible — fades in after width opens */
+  opacity: 0;
+  transition:
+    background 0.2s ease,
+    opacity    0.18s ease,
+    transform  0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade icon in with a small delay so width slides open first */
+.contact-pill:hover .contact-pill__copy-icon {
+  opacity: 1;
+  transition:
+    background 0.2s ease,
+    opacity    0.18s ease 0.12s,
+    transform  0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover icon — solid white bg, SVG goes black */
+.contact-pill__copy:hover .contact-pill__copy-icon,
+.contact-pill__copy:focus-visible .contact-pill__copy-icon {
+  background: rgba(255,255,255,0.9);
+  color: #000000;
+}
+
+/* Hovering the email text — icon fades */
+.contact-pill:has(.contact-pill__email:hover) .contact-pill__copy-icon {
+  opacity: 0.3;
+}
+
+/* Copied — icon fades + shrinks, takes no space */
+.contact-pill.is-copied .contact-pill__copy-icon {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── "Copied" text — fades + pops in ── */
+.contact-pill__copied-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  white-space: nowrap;
+  /* invisible & collapsed until copied */
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  transition:
+    opacity   0.18s ease 0.12s,
+    transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) 0.12s,
+    width     0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    padding   0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-pill.is-copied .contact-pill__copied-text {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  width: 68px;
+  padding: 6px 10px;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+
+/*
+ * Conveyor-belt CTA
+ * The button clips. The inner track is wider than the button.
+ * Track layout: [arrow-in] [gap] [label] [gap] [arrow-out]
+ * On hover the whole track translates left:
+ *   arrow-out exits right edge, arrow-in enters from left.
+ */
+.btn-primary {
+  display: inline-flex;
+  align-items: stretch;
+  height: 54px;
+  padding: 0 20px;
+  background: var(--white);
+  color: #3d3131;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: var(--font-medium);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Entry arrow on the button itself — starts off left, slides in on hover */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  left: 20px;                   /* align with button padding */
+  top: 50%;
+  transform: translateX(-60px) translateY(-50%);  /* off left edge */
+  width: 26px;
+  height: 7px;
+  background: url("data:image/svg+xml,%3Csvg width='26' height='7' viewBox='0 0 26.208 7.02' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22.248 7.02H21.222C21.798 5.742 22.392 4.77 22.95 4.14H0V2.862H22.95C22.374 2.232 21.798 1.26 21.222 0H22.248C23.508 1.476 24.84 2.556 26.208 3.258V3.762C24.84 4.464 23.508 5.544 22.248 7.02Z' fill='%233d3131'/%3E%3C/svg%3E") no-repeat center / contain;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
+}
+
+.btn-primary:hover::before {
+  transform: translateX(0) translateY(-50%);  /* lands at left: 20px = button padding */
+}
+
+/* Track: just the label — shifts right on hover */
+.btn-primary__track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(0);
+}
+
+.btn-primary__track svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* On hover: label + exit arrow slide right, exit arrow leaves, entry arrow enters */
+.btn-primary:hover .btn-primary__track {
+  transform: translateX(38px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: stretch;
+  height: 54px;
+  padding: 0 20px;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: var(--font-medium);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.btn-outline:hover {
+  border-color: var(--border-light);
+}
+
+/* btn-outline uses same independent animation model as btn-primary */
+.btn-outline {
+  position: relative;
+}
+
+.btn-outline__track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(0);
+}
+
+.btn-outline__track svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* NEXT: [label] [→] — entry arrow enters from left, track shifts right */
+.btn-outline--next::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateX(-60px) translateY(-50%);
+  width: 27px;
+  height: 8px;
+  background: url("data:image/svg+xml,%3Csvg width='27' height='8' viewBox='0 0 27 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22.248 7.02H21.222C21.798 5.742 22.392 4.77 22.95 4.14H0V2.862H22.95C22.374 2.232 21.798 1.26 21.222 0H22.248C23.508 1.476 24.84 2.556 26.208 3.258V3.762C24.84 4.464 23.508 5.544 22.248 7.02Z' fill='%23f5f0eb'/%3E%3C/svg%3E") no-repeat center / contain;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
+}
+.btn-outline--next:hover::before { transform: translateX(0) translateY(-50%); }
+.btn-outline--next:hover .btn-outline__track { transform: translateX(38px); }
+
+/* PREV: [←] [label] — entry arrow (pointing left) enters from right, track shifts left */
+.btn-outline--prev::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateX(60px) translateY(-50%);
+  width: 27px;
+  height: 8px;
+  background: url("data:image/svg+xml,%3Csvg width='27' height='8' viewBox='0 0 27 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22.248 7.02H21.222C21.798 5.742 22.392 4.77 22.95 4.14H0V2.862H22.95C22.374 2.232 21.798 1.26 21.222 0H22.248C23.508 1.476 24.84 2.556 26.208 3.258V3.762C24.84 4.464 23.508 5.544 22.248 7.02Z' fill='%23f5f0eb'/%3E%3C/svg%3E") no-repeat center / contain;
+  transform: scaleX(-1) translateX(60px) translateY(-50%);
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
+}
+.btn-outline--prev:hover::after { transform: scaleX(-1) translateX(0) translateY(-50%); }
+.btn-outline--prev:hover .btn-outline__track { transform: translateX(-38px); }
+
+/* ── AVAILABILITY DOT ─────────────────────────────────────── */
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #AAFF21;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+}
+
+/* Pulsating ring that expands outward from the dot */
+.dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #AAFF21;
+  opacity: 0.6;
+  animation: dot-pulse 2s ease-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  60%  { transform: scale(3);   opacity: 0; }
+  100% { transform: scale(3);   opacity: 0; }
+}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero {
+  /* Figma: 180px top from nav, 180px bottom gap to work grid */
+  padding: clamp(4rem, 9vw, 11.25rem) 0 clamp(3rem, 7vw, 11.25rem);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: clamp(2rem, 3.5vw, 3.4375rem); /* 32–55px — Figma: 55px */
+  width: 66.667%; /* 8 of 12 cols */
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.hero-headline {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.hero-sub {
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: var(--font-light);
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* ── WORK GRID ────────────────────────────────────────────── */
+/*
+ * Figma spec (1968px content area):
+ *   Small card:  643px = 32.67%
+ *   Large card: 1140px = 57.93%
+ *   Gap between: justify-between (~9.4%)
+ *   Row gap:    180px  (gap-[180px] on outer flex column)
+ *   3-col:      equal flex:1 with same justify-between gap
+ *
+ *   Heights:  small = 480px (30rem), large = 840px (52.5rem)
+ *   Radius:   4px
+ */
+.work-grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 9vw, 11.25rem); /* 48–180px between rows */
+  padding-bottom: clamp(5rem, 10vw, 11.25rem);
+}
+
+.work-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* Small card: 4/12 cols ≈ 32.67% */
+.work-card--sm { flex: 0 0 32.67%; }
+
+/* Large card: 7/12 cols ≈ 57.93% */
+.work-card--lg { flex: 0 0 57.93%; }
+
+/* Three equal columns — Figma: flex:1 with gap:185px between */
+.work-row--3col {
+  gap: clamp(2rem, 9.4vw, 11.5625rem); /* 32–185px */
+  justify-content: flex-start;
+}
+.work-row--3col .work-card { flex: 1; min-width: 0; }
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* 16px label gap */
+}
+
+.work-card__image-link {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+}
+
+.work-card__image {
+  width: 100%;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--border-light);
+  position: relative;
+}
+
+.work-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Primary image */
+.work-card__image img:first-child {
+  position: relative; /* keeps the container sized correctly */
+  z-index: 1;
+}
+
+/* Hover image — stacked on top, hidden by default */
+.work-card__image img:last-child:not(:first-child) {
+  z-index: 2;
+  opacity: 0;
+}
+
+/* On hover: swap to second image */
+.work-card__image-link:hover .work-card__image img:last-child:not(:first-child) {
+  opacity: 1;
+}
+
+/* Continuous slow zoom while hovered — starts from scale(1) */
+@keyframes work-card-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+.work-card__image-link:hover .work-card__image img {
+  animation: work-card-zoom 6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/*
+ * Heights from Figma:
+ *   --tall = 480px = 30rem  (small card)
+ *   --xl   = 840px = 52.5rem (large card)
+ *
+ * aspect-ratio ensures fluid scaling below the max-height.
+ * On viewports where the card is narrower, the image simply
+ * shrinks proportionally — the max-height only kicks in at
+ * the Figma-designed max size.
+ */
+.work-card__image--tall {
+  aspect-ratio: 643 / 480; /* exact Figma small-card proportions */
+  max-height: 30rem;        /* 480px cap */
+}
+.work-card__image--xl {
+  aspect-ratio: 1140 / 840; /* exact Figma large-card proportions */
+  max-height: 52.5rem;       /* 840px cap */
+}
+
+/* 3-col row: outer = tall proportion, middle = xl */
+.work-row--3col .work-card:nth-child(1) .work-card__image,
+.work-row--3col .work-card:nth-child(3) .work-card__image {
+  aspect-ratio: 643 / 480;
+  max-height: 30rem;
+}
+.work-row--3col .work-card:nth-child(2) .work-card__image {
+  aspect-ratio: 1140 / 840;
+  max-height: 52.5rem;
+}
+
+.work-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 16px;
+}
+
+.work-card__headline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.work-card__title {
+  font-size: 20px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 24px;
+}
+
+.work-card__sep {
+  width: 12px;
+  height: 1px;
+  background: var(--white);
+  flex-shrink: 0;
+}
+
+.work-card__desc {
+  font-size: 20px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 24px;
+}
+
+.work-card__type {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: #b2b2b2;
+  line-height: normal;
+}
+
+/* ── CTA SECTION ──────────────────────────────────────────── */
+.cta-section {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  /* Figma: px-80px, py-100px — extra horizontal inset beyond page-pad */
+  padding: clamp(3.75rem, 8vw, 6.25rem) clamp(2.5rem, 5vw, 5rem);
+}
+
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cta-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cta-question {
+  font-size: clamp(2rem, 4vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+}
+
+.cta-action {
+  font-size: clamp(2rem, 4vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.cta-action a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  display: inline;
+}
+
+/* Underline sweep — only under the email address, not "Email " */
+.cta-email {
+  position: relative;
+}
+
+.cta-email::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.05em;
+  width: 100%;
+  height: clamp(2px, 0.06em, 4px);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.cta-action a:hover .cta-email::after {
+  transform: scaleX(1);
+}
+
+/* ── PAGE LAYOUT (sidebar + content) ─────────────────────── */
+.page-layout {
+  display: flex;
+  gap: 0;
+  padding: 0 var(--page-pad);
+}
+
+.sidebar-nav {
+  flex: 0 0 var(--sidebar-w);
+  padding-top: var(--spacing-3xl);
+  padding-right: 40px;
+}
+
+.sidebar-nav__links {
+  position: sticky;
+  top: calc(var(--header-h) + 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  list-style: none;
+}
+
+.sidebar-link {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sidebar-link:hover,
+.sidebar-link--active {
+  color: var(--white);
+}
+
+.ext-icon {
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.sidebar-link:hover .ext-icon {
+  opacity: 1;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── APPROACH PAGE ────────────────────────────────────────── */
+.approach-section__inner,
+.about-section__inner {
+  padding: clamp(4rem, 9vw, 11.25rem) 0 0; /* 64–180px — matches Figma section spacing */
+  max-width: 100%;
+}
+
+.approach-intro {
+  padding-bottom: 0;
+}
+
+.approach-intro .approach-section__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xl);
+}
+
+.approach-intro__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+  width: 41.67%; /* 5 of 12 cols */
+  max-width: 100%;
+}
+
+/* Service sections */
+.approach-service .approach-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.service-heading {
+  display: flex;
+  flex-direction: column;
+  width: 66.67%; /* 8 of 12 cols */
+  max-width: 100%;
+}
+
+.service-heading__label {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+}
+
+.service-heading__title {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.service-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 41.67%; /* 5 of 12 cols */
+  max-width: 100%;
+}
+
+.service-body p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* How it works cards */
+.approach-how .approach-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.how-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.how-card {
+  flex: 1;
+  min-width: 280px;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+
+/* SVG border overlay — covers card, pointer-events off */
+.card-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card-border path {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.how-card__number-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 80px;
+}
+
+.how-card__number {
+  font-size: 60px;
+  font-weight: var(--font-regular);
+  line-height: 1.2;
+  color: var(--white);
+  align-self: flex-end;
+  width: 132px;
+  height: 132px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-card__rule {
+  height: 1px;
+  width: 100%;
+  background: var(--border-light);
+  margin-top: 16px;
+}
+
+.how-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.how-card__title {
+  font-size: 20px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.how-card__desc {
+  font-size: 20px;
+  font-weight: var(--font-regular);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* FAQ grid */
+.approach-faq .approach-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 100%;
+  padding-bottom: clamp(4rem, 9vw, 11.25rem); /* matches section top spacing */
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(32px, 4vw, 60px) clamp(16px, 2vw, 40px);
+}
+
+.faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item__q {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 1.5;
+}
+
+.faq-item__divider {
+  width: 30px;
+  height: 1px;
+  background: var(--border-light);
+  flex-shrink: 0;
+}
+
+.faq-item__a {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ── ABOUT PAGE ───────────────────────────────────────────── */
+.about-section {
+  border-top: 1px solid var(--border);
+}
+
+.about-section:first-child {
+  border-top: none;
+}
+
+.about-section__inner {
+  padding-top: clamp(80px, 10vw, 180px);
+  padding-bottom: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 100%;
+}
+
+.about-heading {
+  display: flex;
+  flex-direction: column;
+  width: 66.67%; /* 8 of 12 cols */
+  max-width: 100%;
+}
+
+.about-heading__label {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+  background: linear-gradient(to right, var(--muted), var(--dim));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-heading__title {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 41.67%; /* 5 of 12 cols */
+  max-width: 100%;
+}
+
+.about-body p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Clients list */
+.clients-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  list-style: none;
+  max-width: 900px;
+}
+
+.clients-list li {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: var(--font-regular);
+  color: var(--white);
+  line-height: 1.4;
+}
+
+/* Testimonials grid */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3vw, 60px) clamp(12px, 1.5vw, 20px);
+}
+
+.testimonial-card {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.testimonial-card__quote {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+.testimonial-card__divider {
+  width: 30px;
+  height: 1px;
+  background: var(--border-light);
+  flex-shrink: 0;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.testimonial-card__author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.testimonial-card__name {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--white);
+}
+
+.testimonial-card__role,
+.testimonial-card__company {
+  font-size: 14px;
+  font-weight: var(--font-regular);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.testimonial-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--border-light);
+}
+
+.testimonial-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── PROJECT PAGE ─────────────────────────────────────────── */
+.project-intro {
+  /* Figma: 180px top (from nav), 180px bottom to hero */
+  padding: clamp(4rem, 9vw, 11.25rem) 0 clamp(3rem, 7vw, 11.25rem);
+}
+
+.project-intro__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.project-intro__text {
+  flex: 0 0 66.67%; /* 8 of 12 columns */
+  max-width: 66.67%;
+}
+
+.project-intro__cta {
+  flex-shrink: 0;
+  padding-top: 8px;
+}
+
+.project-headline {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--font-light);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.project-headline__title {
+  color: var(--white);
+}
+
+.project-headline__sub {
+  color: var(--muted);
+}
+
+/* Hero image */
+.project-hero-image {
+  padding-bottom: var(--spacing-3xl);
+}
+
+.project-hero-image__frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--border-light);
+}
+
+.project-hero-image__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Project description */
+.project-description {
+  padding-bottom: var(--spacing-3xl);
+}
+
+.project-description__inner {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.project-description__body {
+  width: 50%; /* 6 of 12 columns */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.project-description__overview {
+  border-top: 1px solid var(--border);
+  padding-top: var(--spacing-2xl);
+}
+
+.project-description__overview p {
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: var(--font-regular);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+.project-description__meta {
+  border-top: 1px solid var(--border);
+  padding-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-label {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.meta-value {
+  font-size: 20px;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.meta-value--list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Gallery */
+.project-gallery {
+  padding-bottom: var(--spacing-3xl);
+}
+
+.project-gallery__layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Thumbnails sidebar */
+.gallery-thumbs {
+  flex: 0 0 100px;
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.thumb-item {
+  width: 100%;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  transition: border-color 0.15s;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-card); /* 4px */
+  opacity: 0.25;
+  transition: opacity 0.15s;
+}
+
+.thumb-item--active {
+  background: #252525;
+  border-color: var(--border-light);
+}
+
+.thumb-item--active img {
+  opacity: 1;
+}
+
+.thumb-item:hover img {
+  opacity: 0.7;
+}
+
+/* Gallery images */
+.gallery-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery-item__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--border-light);
+}
+
+.gallery-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
+/* Direct img inside figure (no wrapper div) — same radius */
+.gallery-item > img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  display: block;
+  background: var(--border-light);
+}
+
+.gallery-item figcaption {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Outcome + Testimonial */
+.project-outcome {
+  padding-bottom: var(--spacing-3xl);
+}
+
+/* Mirror the gallery layout: thumb-width spacer + gap + main area
+   so outcome sits centred within the gallery main column */
+.project-outcome__inner {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.project-outcome__spacer {
+  flex: 0 0 100px; /* matches .gallery-thumbs width */
+}
+
+.project-outcome__main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.project-outcome__content {
+  width: 50%; /* 6 of 12 columns — centred within gallery main */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.outcome-text {
+  border-top: 1px solid var(--border);
+  padding-top: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.outcome-label {
+  font-size: 20px;
+  color: var(--muted);
+  font-weight: var(--font-regular);
+}
+
+.outcome-text p {
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: var(--font-regular);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+.testimonial {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.testimonial p {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  line-height: 1.5;
+  color: var(--white);
+  font-style: normal;
+}
+
+.testimonial__divider {
+  width: 30px;
+  height: 1px;
+  background: var(--border-light);
+}
+
+.testimonial footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.testimonial__name {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--muted);
+}
+
+.testimonial__role {
+  font-size: 16px;
+  font-weight: var(--font-regular);
+  color: var(--muted);
+}
+
+/* Project nav */
+.project-nav {
+  padding-bottom: var(--spacing-xl);
+}
+
+.project-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .faq-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .testimonials-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* 3-col drops to 2 across at mid-width */
+  .work-row--3col {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .work-row--3col .work-card {
+    flex: 0 0 calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --header-h: 60px;
+    --sidebar-w: 0px;
+    --page-pad: 20px;
+  }
+
+  .logo-text { display: none; }
+
+  .nav-link { font-size: 14px; }
+  .nav-links { gap: 16px; }
+
+  .contact-pill { display: none; }
+
+  .hero {
+    padding: 60px 0 40px;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+    gap: 28px;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .work-row {
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .work-card--sm,
+  .work-card--lg,
+  .work-row--3col .work-card { flex: 0 0 100%; }
+  /* Mobile: wider landscape ratio, no height cap */
+  .work-card__image--tall,
+  .work-card__image--xl,
+  .work-row--3col .work-card:nth-child(1) .work-card__image,
+  .work-row--3col .work-card:nth-child(2) .work-card__image,
+  .work-row--3col .work-card:nth-child(3) .work-card__image {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+
+  .page-layout { flex-direction: column; }
+  .sidebar-nav { display: none; }
+
+  .approach-section__inner,
+  .about-section__inner { padding-top: 60px; }
+
+  .how-cards { flex-direction: column; }
+  .how-card { min-width: 0; padding: 36px; }
+
+  .faq-grid { grid-template-columns: 1fr; }
+
+  .clients-list { grid-template-columns: 1fr; }
+
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .testimonial-card { padding: 36px; }
+
+  .project-intro { padding: 60px 0 40px; }
+  .project-intro__inner { flex-direction: column; gap: 32px; }
+  .project-intro__text { flex: 0 0 100%; max-width: 100%; }
+
+  .project-description__body { width: 100%; }
+
+  .project-gallery__layout { flex-direction: column; }
+  .gallery-thumbs { flex-direction: row; position: relative; top: 0; }
+  .thumb-item { flex: 0 0 80px; }
+
+  .project-outcome__inner { flex-direction: column; gap: 0; }
+  .project-outcome__spacer { display: none; }
+  .project-outcome__main { justify-content: flex-start; }
+  .project-outcome__content { width: 100%; }
+
+  .testimonial { padding: 36px; }
+}
+
+@media (max-width: 684px) {
+  .faq-grid { gap: 56px; }
+}
+
+@media (max-width: 600px) {
+  .work-row--3col .work-card { flex: 0 0 100%; }
+
+  .hero-headline { font-size: clamp(2rem, 9vw, 3rem); }
+  .hero-sub { font-size: 1rem; }
+
+  .display-heading,
+  .service-heading__label,
+  .service-heading__title,
+  .about-heading__label,
+  .about-heading__title,
+  .project-headline {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
+
+  .cta-question, .cta-action { font-size: clamp(1.4rem, 8vw, 2.5rem); }
+}
+
+/* ── FOCUS STYLES (accessibility) ────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── SCROLL REVEAL ANIMATIONS ─────────────────────────────── */
+/*
+ * Two flavours applied via data attributes set by reveal.js:
+ *
+ *   [data-reveal]        — generic: fade + subtle upward drift
+ *   [data-reveal="img"]  — images: fade + very slight scale up
+ *
+ * Before visible:  opacity:0, transform applied
+ * After visible:   transition fires to opacity:1, transform:none
+ *
+ * Stagger is handled in JS by setting --reveal-delay on each element.
+ * prefers-reduced-motion: transitions collapse to instant.
+ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem); /* 24px upward drift */
+  transition:
+    opacity  0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+[data-reveal="img"] {
+  opacity: 0;
+  transform: scale(0.97) translateY(0.75rem);
+  transition:
+    opacity   0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="img"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── PAGE TRANSITIONS ─────────────────────────────────────── */
+/*
+ * Curtain approach inspired by get3rd.com:
+ * A dark panel sits above all content. On navigate-out it
+ * slides UP to cover the page (cubic ease-in). The browser
+ * then loads the new page; on load the curtain slides UP and
+ * OUT of view (cubic ease-out), revealing the fresh content.
+ *
+ * The page content itself fades up slightly as the curtain exits
+ * for a layered, cinematic feel.
+ */
+
+/*
+ * PAGE TRANSITION CURTAIN
+ * ─────────────────────────────────────────────────────────────
+ * Inspired by get3rd.com.
+ *
+ * State machine:
+ *  [default]          translateY(100%)  — parked below viewport, invisible
+ *  [--entering]       animates 100% → 0  — sweeps up to cover on EXIT
+ *  [--exiting]        starts at 0, animates 0 → -100%  — lifts away on ENTER
+ *
+ * The curtain element is injected by transitions.js.
+ */
+
+.page-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);        /* same dark bg as the site — seamless */
+  transform: translateY(100%);  /* default: below viewport, invisible */
+  will-change: transform;
+  pointer-events: none;         /* doesn't block interaction by default */
+}
+
+
+/* EXIT — curtain sweeps up from bottom to cover page */
+.page-curtain--entering {
+  pointer-events: all;          /* block interaction while navigating */
+  animation: curtain-in 0.55s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+/* ENTER — curtain starts covering, lifts up out of view */
+.page-curtain--exiting {
+  transform: translateY(0);     /* park covering; animation takes over */
+  animation: curtain-out 0.65s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation-delay: 0.05s;       /* tiny delay so first paint is covered */
+}
+
+@keyframes curtain-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0%); }
+}
+
+@keyframes curtain-out {
+  from { transform: translateY(0%); }
+  to   { transform: translateY(-100%); }
+}
+
+/* CONTENT REVEAL — main slides up gently as curtain lifts */
+.page-content-reveal {
+  opacity: 0;                   /* start hidden */
+  animation: content-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+@keyframes content-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);  /* 24px — subtle upward drift */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

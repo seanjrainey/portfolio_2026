@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img/archive"
+public_folder: "img/archive"
+
+collections:
+  - name: "archive"
+    label: "Archive"
+    files:
+      - name: "archive"
+        label: "Archive Tiles"
+        file: "img/archive.json"
+        fields:
+          - name: "items"
+            label: "Tiles"
+            widget: "list"
+            summary: "{{fields.caption}}"
+            allow_add: true
+            fields:
+              - { name: "src", label: "Image", widget: "image" }
+              - { name: "caption", label: "Caption", widget: "string" }
