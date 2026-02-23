@@ -219,7 +219,7 @@
       var grid = document.getElementById('archive-grid');
       if (!grid) return;
 
-      fetch('img/archive.json')
+      fetch('/img/archive.json')
         .then(function (r) { return r.json(); })
         .then(function (data) {
           var items = data.items || data;

@@ -3,7 +3,7 @@ backend:
   branch: main
 
 media_folder: "img/archive"
-public_folder: "img/archive"
+public_folder: "/img/archive"
 
 collections:
   - name: "archive"
