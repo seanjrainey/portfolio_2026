@@ -60,4 +60,7 @@
 
   targets.forEach(function (el) { observer.observe(el); });
 
+  /* Expose so dynamically-injected elements (e.g. archive grid) can register */
+  window.__revealObserver = observer;
+
 })();
