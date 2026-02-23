@@ -73,7 +73,7 @@
         <div class="hero-content">
           <h1 class="hero-headline" id="hero-heading" data-reveal>Brand and website work that makes growing companies look the part.</h1>
           <div class="hero-sub" data-reveal>
-            <p>I'm Sean, an independent brand and digital designer working with Vancouver founders, VCs, and property developers who need a brand and website that holds its own.</p>
+            <p><span class="hover-portrait">I'm Sean</span>, an independent brand and digital designer working with Vancouver founders, VCs, and property developers who need a brand and website that holds its own.</p>
             <p>One person, start to finish. No handoffs, no gap between what was designed and what gets built.</p>
           </div>
           <div class="hero-cta" data-reveal>
@@ -337,6 +337,45 @@
           document.body.removeChild(ta);
           markCopied();
         });
+      });
+    }());
+  </script>
+
+  <script>
+    // ── "I'm Sean" hover portrait ────────────────────────────────
+    (function () {
+      var trigger = document.querySelector('.hover-portrait');
+      if (!trigger) return;
+
+      var img = document.createElement('img');
+      img.src    = '/img/sean_rainey-designer.jpg';
+      img.alt    = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.className = 'hover-portrait__img';
+      document.body.appendChild(img);
+
+      var mouseX = 0, mouseY = 0;
+      var active = false;
+
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (active) {
+          img.style.left = (mouseX + 28) + 'px';
+          img.style.top  = (mouseY - 160) + 'px';
+        }
+      });
+
+      trigger.addEventListener('mouseenter', function (e) {
+        active = true;
+        img.style.left = (e.clientX + 28) + 'px';
+        img.style.top  = (e.clientY - 160) + 'px';
+        img.classList.add('is-active');
+      });
+
+      trigger.addEventListener('mouseleave', function () {
+        active = false;
+        img.classList.remove('is-active');
       });
     }());
   </script>
