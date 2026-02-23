@@ -47,7 +47,6 @@
           <li><a href="index.html" class="nav-link active" aria-current="page"><span class="nav-link__inner"><span class="nav-link__label">Work</span><span class="nav-link__label" aria-hidden="true">Work</span></span></a></li>
           <li><a href="approach.html" class="nav-link"><span class="nav-link__inner"><span class="nav-link__label">Approach</span><span class="nav-link__label" aria-hidden="true">Approach</span></span></a></li>
           <li><a href="about.html" class="nav-link"><span class="nav-link__inner"><span class="nav-link__label">About</span><span class="nav-link__label" aria-hidden="true">About</span></span></a></li>
-          <li><a href="archive.html" class="nav-link"><span class="nav-link__inner"><span class="nav-link__label">Archive</span><span class="nav-link__label" aria-hidden="true">Archive</span></span></a></li>
         </ul>
         <div class="contact-pill" id="contact-pill">
           <a href="mailto:hello@seanrainey.design" class="contact-pill__email" aria-label="Email hello@seanrainey.design">hello@seanrainey.design</a>
@@ -282,6 +281,17 @@
 
   </main>
 
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container-wide">
+      <div class="site-footer__inner">
+        <span>© 2026, Sean Rainey. All Right Reserved.</span>
+        <span>Vancouver, BC Canada.</span>
+        <a href="archive.html" class="site-footer__archive">Archive ⟶</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
     // Gallery: click thumb → scroll to image
     const thumbs = document.querySelectorAll('.thumb-item');
@@ -319,8 +329,15 @@
         second: '2-digit',
         hour12: false
       });
+      var fmtEst = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/New_York',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
       function tick() {
-        el.textContent = 'Vancouver — ' + fmt.format(new Date());
+        el.textContent = 'Vancouver — ' + fmt.format(new Date()) + '  ·  EST ' + fmtEst.format(new Date());
       }
       tick();
       setInterval(tick, 1000);

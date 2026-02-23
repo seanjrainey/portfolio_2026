@@ -234,6 +234,17 @@
 
   </main>
 
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container-wide">
+      <div class="site-footer__inner">
+        <span>© 2026, Sean Rainey. All Right Reserved.</span>
+        <span>Vancouver, BC Canada.</span>
+        <a href="archive.html" class="site-footer__archive">Archive ⟶</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
     // Gallery: click thumb → scroll to image
     const thumbs = document.querySelectorAll('.thumb-item');
@@ -274,8 +285,15 @@
         second: '2-digit',
         hour12: false
       });
+      var fmtEst = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/New_York',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
       function tick() {
-        el.textContent = 'Vancouver — ' + fmt.format(new Date());
+        el.textContent = 'Vancouver — ' + fmt.format(new Date()) + '  ·  EST ' + fmtEst.format(new Date());
       }
       tick();
       setInterval(tick, 1000);

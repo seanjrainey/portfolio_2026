@@ -1946,3 +1946,32 @@ button {
     transform: translateY(0);
   }
 }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.site-footer {
+  padding: 40px 0;
+}
+
+.site-footer__inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.site-footer__inner span,
+.site-footer__archive {
+  flex: 1;
+}
+
+.site-footer__archive {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.site-footer__archive:hover {
+  color: var(--white);
+}
