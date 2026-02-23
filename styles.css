@@ -580,7 +580,7 @@ button {
 .btn-primary__track {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
   transform: translateX(0);
 }
@@ -592,7 +592,7 @@ button {
 
 /* On hover: label + exit arrow slide right, exit arrow leaves, entry arrow enters */
 .btn-primary:hover .btn-primary__track {
-  transform: translateX(38px);
+  transform: translateX(52px);
 }
 
 .btn-outline {
