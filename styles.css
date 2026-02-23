@@ -740,6 +740,9 @@ button {
   font-weight: var(--font-light);
   line-height: 1.3;
   color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .hero-cta {
@@ -1949,10 +1952,8 @@ button {
 
 /* ── FOOTER ──────────────────────────────────────────────── */
 .site-footer {
-  padding: 40px 0;
-}
-
-.site-footer__inner {
+  border-top: 1px solid var(--border);
+  padding: 40px var(--page-pad);
   display: flex;
   align-items: center;
   gap: 20px;
@@ -1961,8 +1962,7 @@ button {
   font-weight: 400;
 }
 
-.site-footer__inner span,
-.site-footer__archive {
+.site-footer > * {
   flex: 1;
 }
 
