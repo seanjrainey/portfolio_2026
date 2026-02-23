@@ -16,8 +16,8 @@ collections:
           - name: "items"
             label: "Tiles"
             widget: "list"
-            summary: "{{fields.caption}}"
+            summary: "{{fields.caption | default: fields.src}}"
             allow_add: true
             fields:
               - { name: "src", label: "Image", widget: "image" }
-              - { name: "caption", label: "Caption", widget: "string" }
+              - { name: "caption", label: "Caption", widget: "string", required: false }
