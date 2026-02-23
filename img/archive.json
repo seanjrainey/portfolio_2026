@@ -1,20 +1,68 @@
 {
   "items": [
-    { "src": "/img/archive/tile-2@2x.webp",  "caption": "Ronald McDonald House" },
-    { "src": "/img/archive/tile-1@2x.webp",  "caption": "Hollr — Website Design" },
-    { "src": "/img/archive/tile-3@2x.webp",  "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-4@2x.webp",  "caption": "Seasons — Brand Identity" },
-    { "src": "/img/archive/tile-5@2x.webp",  "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-6@2x.webp",  "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-7@2x.webp",  "caption": "TaskHuman — Brand Identity" },
-    { "src": "/img/archive/tile-8@2x.webp",  "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-9@2x.webp",  "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-10@2x.webp", "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-11@2x.webp", "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-12@2x.webp", "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-13@2x.webp", "caption": "Logo Concept" },
-    { "src": "/img/archive/tile-14@2x.webp", "caption": "Not Your Average — Brand Identity" },
-    { "src": "/img/archive/tile-15@2x.webp", "caption": "NYA Ventures — Brand Identity" },
-    { "src": "/img/archive/tile-16@2x.webp", "caption": "Logo Concept" }
+    {
+      "src": "/img/archive/tile-1@2x.webp",
+      "caption": "Hollr — Website Design"
+    },
+    {
+      "src": "/img/archive/tile-2@2x.webp",
+      "caption": "Ronald McDonald House"
+    },
+    {
+      "src": "/img/archive/tile-3@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-4@2x.webp",
+      "caption": "Seasons — Brand Identity"
+    },
+    {
+      "src": "/img/archive/tile-5@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-6@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-7@2x.webp",
+      "caption": "TaskHuman — Brand Identity"
+    },
+    {
+      "src": "/img/archive/tile-8@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-9@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-10@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-11@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-12@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-13@2x.webp",
+      "caption": "Logo Concept"
+    },
+    {
+      "src": "/img/archive/tile-14@2x.webp",
+      "caption": "Not Your Average — Brand Identity"
+    },
+    {
+      "src": "/img/archive/tile-15@2x.webp",
+      "caption": "NYA Ventures — Brand Identity"
+    },
+    {
+      "src": "/img/archive/tile-16@2x.webp",
+      "caption": "Logo Concept"
+    }
   ]
 }
