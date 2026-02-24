@@ -134,98 +134,8 @@
     <section class="project-gallery" aria-label="Project gallery">
       <div class="container-wide">
         <div class="project-gallery__layout">
-          <aside class="gallery-thumbs" aria-label="Gallery thumbnails">
-            <button class="thumb-item thumb-item--active" data-target="gallery-img-0" aria-label="View image 1">
-              <img src="img/nyaxventures1@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-1" aria-label="View image 2">
-              <img src="img/nyaxventures2@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-2" aria-label="View image 3">
-              <img src="img/nyaxventures3@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-3" aria-label="View image 4">
-              <img src="img/nyaxventures4@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-4" aria-label="View image 5">
-              <img src="img/nyaxventures5@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-5" aria-label="View image 6">
-              <img src="img/nyaxventures6@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-6" aria-label="View image 7">
-              <img src="img/nyaxventures7@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-7" aria-label="View image 8">
-              <img src="img/nyaxventures8@2x.webp" alt="">
-            </button>
-          </aside>
-          <div class="gallery-main">
-            <figure class="gallery-item" data-reveal id="gallery-img-0">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures1@2x.webp" alt="Identity built to earn credibility before the first meeting." loading="eager">
-
-              </div>
-              <figcaption>Identity built to earn credibility before the first meeting.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-1">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures2@2x.webp" alt="A visual system that scales from print to digital." loading="lazy">
-
-              </div>
-              <figcaption>A visual system that scales from print to digital.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-2">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures3@2x.webp" alt="Website designed to establish trust immediately." loading="lazy">
-
-              </div>
-              <figcaption>Website designed to establish trust immediately.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-3">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures4@2x.webp" alt="Mobile-first design decisions throughout." loading="lazy">
-
-              </div>
-              <figcaption>Mobile-first design decisions throughout.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-4">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures5@2x.webp" alt="Portfolio and news sections built for ongoing growth." loading="lazy">
-
-              </div>
-              <figcaption>Portfolio and news sections built for ongoing growth.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-5">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures6@2x.webp" alt="Identity applied across investor materials." loading="lazy">
-
-              </div>
-              <figcaption>Identity applied across investor materials.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-6">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures7@2x.webp" alt="Website designed for credibility and clarity." loading="lazy">
-
-              </div>
-              <figcaption>Website designed for credibility and clarity.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-7">
-              <div class="gallery-item__image">
-
-                <img src="img/nyaxventures8@2x.webp" alt="Brand system in full across digital and print." loading="lazy">
-
-              </div>
-              <figcaption>Brand system in full across digital and print.</figcaption>
-            </figure>
-          </div>
+          <aside class="gallery-thumbs" aria-label="Gallery thumbnails"></aside>
+          <div class="gallery-main"></div>
           </div><!-- /project-outcome__main -->
         </div>
       </div>
@@ -289,29 +199,82 @@
   </footer>
 
   <script>
-    // Gallery: click thumb → scroll to image
-    const thumbs = document.querySelectorAll('.thumb-item');
-    thumbs.forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        const targetId = thumb.dataset.target;
-        const target = document.getElementById(targetId);
+    // ── Gallery images — edit this list to add or remove images ───────────
+    var GALLERY_IMAGES = [
+      { src: 'img/nyaxventures1@2x.webp', caption: 'Identity built to earn credibility before the first meeting.' },
+      { src: 'img/nyaxventures2@2x.webp', caption: 'A visual system that scales from print to digital.' },
+      { src: 'img/nyaxventures3@2x.webp', caption: 'Website designed to establish trust immediately.' },
+      { src: 'img/nyaxventures4@2x.webp', caption: 'Mobile-first design decisions throughout.' },
+      { src: 'img/nyaxventures5@2x.webp', caption: 'Portfolio and news sections built for ongoing growth.' },
+      { src: 'img/nyaxventures6@2x.webp', caption: 'Identity applied across investor materials.' },
+      { src: 'img/nyaxventures7@2x.webp', caption: 'Website designed for credibility and clarity.' },
+      { src: 'img/nyaxventures8@2x.webp', caption: 'Brand system in full across digital and print.' },
+    ];
+
+    // ── Build gallery from array ───────────────────────────────────────────
+    (function () {
+      var thumbsEl = document.querySelector('.gallery-thumbs');
+      var mainEl   = document.querySelector('.gallery-main');
+      if (!thumbsEl || !mainEl) return;
+      GALLERY_IMAGES.forEach(function (img, i) {
+        var btn = document.createElement('button');
+        btn.className = 'thumb-item' + (i === 0 ? ' thumb-item--active' : '');
+        btn.dataset.target = 'gallery-img-' + i;
+        btn.setAttribute('aria-label', 'View image ' + (i + 1));
+        var tImg = document.createElement('img');
+        tImg.src = img.src;
+        tImg.alt = '';
+        tImg.addEventListener('error', function () { btn.style.display = 'none'; });
+        btn.appendChild(tImg);
+        thumbsEl.appendChild(btn);
+
+        var fig = document.createElement('figure');
+        fig.className = 'gallery-item';
+        fig.setAttribute('data-reveal', '');
+        fig.id = 'gallery-img-' + i;
+        var wrap = document.createElement('div');
+        wrap.className = 'gallery-item__image';
+        var mImg = document.createElement('img');
+        mImg.src = img.src;
+        mImg.alt = img.caption;
+        mImg.loading = i === 0 ? 'eager' : 'lazy';
+        mImg.addEventListener('error', function () {
+          fig.style.display = 'none';
+          var th = thumbsEl.querySelector('[data-target="gallery-img-' + i + '"]');
+          if (th) th.style.display = 'none';
+        });
+        wrap.appendChild(mImg);
+        var fcap = document.createElement('figcaption');
+        fcap.textContent = img.caption;
+        fig.appendChild(wrap);
+        fig.appendChild(fcap);
+        mainEl.appendChild(fig);
+      });
+    }());
+
+    // ── Gallery interaction ────────────────────────────────────────────────
+    var thumbs = document.querySelectorAll('.thumb-item');
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        var targetId = thumb.dataset.target;
+        var target = document.getElementById(targetId);
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        thumbs.forEach(t => t.classList.remove('thumb-item--active'));
+        thumbs.forEach(function (t) { t.classList.remove('thumb-item--active'); });
         thumb.classList.add('thumb-item--active');
       });
     });
-    const figures = document.querySelectorAll('.gallery-item[id]');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    var figures = document.querySelectorAll('.gallery-item[id]');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          const id = entry.target.id;
-          thumbs.forEach(t => {
+          var id = entry.target.id;
+          thumbs.forEach(function (t) {
             t.classList.toggle('thumb-item--active', t.dataset.target === id);
           });
         }
       });
     }, { threshold: 0.4 });
-    figures.forEach(fig => observer.observe(fig));
+    figures.forEach(function (fig) { observer.observe(fig); });
   </script>
   <script>
     // ── Vancouver clock ────────────────────────────────────────────

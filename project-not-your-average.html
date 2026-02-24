@@ -133,87 +133,8 @@
     <section class="project-gallery" aria-label="Project gallery">
       <div class="container-wide">
         <div class="project-gallery__layout">
-          <aside class="gallery-thumbs" aria-label="Gallery thumbnails">
-            <button class="thumb-item thumb-item--active" data-target="gallery-img-0" aria-label="View image 1">
-              <img src="img/notyouraverage1@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-1" aria-label="View image 2">
-              <img src="img/notyouraverage2@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-2" aria-label="View image 3">
-              <img src="img/notyouraverage3@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-3" aria-label="View image 4">
-              <img src="img/notyouraverage4@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-4" aria-label="View image 5">
-              <img src="img/notyouraverage5@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-5" aria-label="View image 6">
-              <img src="img/notyouraverage6@2x.webp" alt="">
-            </button>
-            <button class="thumb-item" data-target="gallery-img-6" aria-label="View image 7">
-              <img src="img/notyouraverage7@2x.webp" alt="">
-            </button>
-          </aside>
-          <div class="gallery-main">
-            <figure class="gallery-item" data-reveal id="gallery-img-0">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage1@2x.webp" alt="Brand identity built to stand out and hold up." loading="eager">
-
-              </div>
-              <figcaption>Brand identity built to stand out and hold up.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-1">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage2@2x.webp" alt="Typographic system with attitude and precision." loading="lazy">
-
-              </div>
-              <figcaption>Typographic system with attitude and precision.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-2">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage3@2x.webp" alt="Packaging design that commands shelf presence." loading="lazy">
-
-              </div>
-              <figcaption>Packaging design that commands shelf presence.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-3">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage4@2x.webp" alt="Colour and material application across the brand." loading="lazy">
-
-              </div>
-              <figcaption>Colour and material application across the brand.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-4">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage5@2x.webp" alt="Identity in context across retail and digital." loading="lazy">
-
-              </div>
-              <figcaption>Identity in context across retail and digital.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-5">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage6@2x.webp" alt="Packaging and print applications of the identity." loading="lazy">
-
-              </div>
-              <figcaption>Packaging and print applications of the identity.</figcaption>
-            </figure>
-            <figure class="gallery-item" data-reveal id="gallery-img-6">
-              <div class="gallery-item__image">
-
-                <img src="img/notyouraverage7@2x.webp" alt="Brand in context across retail and marketing." loading="lazy">
-
-              </div>
-              <figcaption>Brand in context across retail and marketing.</figcaption>
-            </figure>
-          </div>
+          <aside class="gallery-thumbs" aria-label="Gallery thumbnails"></aside>
+          <div class="gallery-main"></div>
           </div><!-- /project-outcome__main -->
         </div>
       </div>
@@ -277,29 +198,81 @@
   </footer>
 
   <script>
-    // Gallery: click thumb → scroll to image
-    const thumbs = document.querySelectorAll('.thumb-item');
-    thumbs.forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        const targetId = thumb.dataset.target;
-        const target = document.getElementById(targetId);
+    // ── Gallery images — edit this list to add or remove images ─────────────────────
+    var GALLERY_IMAGES = [
+      { src: 'img/notyouraverage1@2x.webp', caption: 'Brand identity built to stand out and hold up.' },
+      { src: 'img/notyouraverage2@2x.webp', caption: 'Typographic system with attitude and precision.' },
+      { src: 'img/notyouraverage3@2x.webp', caption: 'Packaging design that commands shelf presence.' },
+      { src: 'img/notyouraverage4@2x.webp', caption: 'Colour and material application across the brand.' },
+      { src: 'img/notyouraverage5@2x.webp', caption: 'Identity in context across retail and digital.' },
+      { src: 'img/notyouraverage6@2x.webp', caption: 'Packaging and print applications of the identity.' },
+      { src: 'img/notyouraverage7@2x.webp', caption: 'Brand in context across retail and marketing.' },
+    ];
+
+    // ── Build gallery from array ───────────────────────────────────────────
+    (function () {
+      var thumbsEl = document.querySelector('.gallery-thumbs');
+      var mainEl   = document.querySelector('.gallery-main');
+      if (!thumbsEl || !mainEl) return;
+      GALLERY_IMAGES.forEach(function (img, i) {
+        var btn = document.createElement('button');
+        btn.className = 'thumb-item' + (i === 0 ? ' thumb-item--active' : '');
+        btn.dataset.target = 'gallery-img-' + i;
+        btn.setAttribute('aria-label', 'View image ' + (i + 1));
+        var tImg = document.createElement('img');
+        tImg.src = img.src;
+        tImg.alt = '';
+        tImg.addEventListener('error', function () { btn.style.display = 'none'; });
+        btn.appendChild(tImg);
+        thumbsEl.appendChild(btn);
+
+        var fig = document.createElement('figure');
+        fig.className = 'gallery-item';
+        fig.setAttribute('data-reveal', '');
+        fig.id = 'gallery-img-' + i;
+        var wrap = document.createElement('div');
+        wrap.className = 'gallery-item__image';
+        var mImg = document.createElement('img');
+        mImg.src = img.src;
+        mImg.alt = img.caption;
+        mImg.loading = i === 0 ? 'eager' : 'lazy';
+        mImg.addEventListener('error', function () {
+          fig.style.display = 'none';
+          var th = thumbsEl.querySelector('[data-target="gallery-img-' + i + '"]');
+          if (th) th.style.display = 'none';
+        });
+        wrap.appendChild(mImg);
+        var fcap = document.createElement('figcaption');
+        fcap.textContent = img.caption;
+        fig.appendChild(wrap);
+        fig.appendChild(fcap);
+        mainEl.appendChild(fig);
+      });
+    }());
+
+    // ── Gallery interaction ────────────────────────────────────────────────
+    var thumbs = document.querySelectorAll('.thumb-item');
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        var targetId = thumb.dataset.target;
+        var target = document.getElementById(targetId);
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        thumbs.forEach(t => t.classList.remove('thumb-item--active'));
+        thumbs.forEach(function (t) { t.classList.remove('thumb-item--active'); });
         thumb.classList.add('thumb-item--active');
       });
     });
-    const figures = document.querySelectorAll('.gallery-item[id]');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    var figures = document.querySelectorAll('.gallery-item[id]');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          const id = entry.target.id;
-          thumbs.forEach(t => {
+          var id = entry.target.id;
+          thumbs.forEach(function (t) {
             t.classList.toggle('thumb-item--active', t.dataset.target === id);
           });
         }
       });
     }, { threshold: 0.4 });
-    figures.forEach(fig => observer.observe(fig));
+    figures.forEach(function (fig) { observer.observe(fig); });
   </script>
   <script>
     // ── Vancouver clock ────────────────────────────────────────────
