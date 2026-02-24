@@ -1359,7 +1359,7 @@ button {
 .testimonial-card__author-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .testimonial-card__name {
@@ -1379,21 +1379,22 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 21px;
   border-radius: 100px;
-  padding: 0;
+  padding: 2px 0;
   font-size: 14px;
   font-weight: var(--font-regular);
   color: var(--muted);
   line-height: 1;
-  transition: background 0.15s ease, color 0.15s ease, padding 0.15s ease;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, padding 0.15s ease, margin 0.15s ease;
   cursor: pointer;
 }
 
 .testimonial-card__company:hover {
   background: var(--white);
   color: #111111;
-  padding: 0 8px;
+  padding: 2px 8px;
+  margin-left: -8px;
 }
 
 .testimonial-card__avatar {
