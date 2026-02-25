@@ -358,6 +358,7 @@ button {
   display: inline-flex;
   align-items: center;
   height: 44px;
+  background-color: #0f0b0b;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   white-space: nowrap;
